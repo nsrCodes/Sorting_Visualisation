@@ -11,4 +11,4 @@ You can see the working demo here:
 It was just a rookie attempt at the project and hence would love to hear any optimisations that can be made.
 Also, would love to add other sorting algorithms like merge sort and quick sort as well
 
-* Head over to issues to contribute. Any help is appreciated *
+*Head over to issues to contribute. Any help is appreciated*
