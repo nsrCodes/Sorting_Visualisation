@@ -1,17 +1,18 @@
 from tkinter import *
 from time import sleep
 import random
+
 class Application:
     
     def __init__(self,master):
 
         self.heights= [5, 2, 1, 8, 4]
         self.blocks = []
-        self.width = 60
+        self.width = 60 # width of individual blocks
         self.aligner = 30
         self.margin = 30
         self.length=500
-        self.breadth=360
+        self.breadth=360 # width of window
         self.bars = 5
         self.master = master
 
@@ -28,9 +29,11 @@ class Application:
         slider_x = Scale(master, from_=5 , to=500, orient = HORIZONTAL, bg="blue",command = self.wid)
         slider_x.pack(side=TOP)
 
-        processor_button = Button(master,text = "Click to Bubble sort", command=self.sort_show)
-        processor_button.pack(side=BOTTOM)
-    
+        bubble_sort_button = Button(master,text = "Click to Bubble sort", command=self.bubble_sort_show)
+        bubble_sort_button.pack(side=BOTTOM)
+
+        insertion_sort_button = Button(master,text = "Click to Insertion sort", command=self.insertion_sort_show)
+        insertion_sort_button.pack(side=BOTTOM)
     
 
 
@@ -42,15 +45,19 @@ class Application:
     def show(self,time = 0.001):
         self.canvas.delete(ALL)
         w = self.width
-        a = 30
+        rect_begin = 30
         for block in self.blocks:
-            self.canvas.create_rectangle(a,550-50*block["height"],a+w,550, fill=block['color'])
-            a += w
+            self.canvas.create_rectangle(rect_begin,550-50*block["height"],rect_begin+w,550, fill=block['color'])
+            rect_begin += w
         sleep(time)
             
 
-    def sort_show(self):
+    def bubble_sort_show(self):
         self.bubble_sort()
+        self.show()
+
+    def insertion_sort_show(self):
+        self.insertion_sort()
         self.show()
 
 
@@ -108,19 +115,34 @@ class Application:
         
         self.clean_color()
         self.show()
-   
+
+
+    def insertion_sort(self):
+        swapped = False
+        for i in range(1, len(self.blocks)): # start at 1 because index 0 must be already sorted
+            self.clean_color()
+            self.blocks[i]['color'] = 'blue'
+            self.show()
+            self.master.update()
+
+            j = i
+            while self.blocks[j]['height'] < self.blocks[j-1]['height'] and j > 0 : # while block is not in the right place
+                
+                self.blocks[j], self.blocks[j-1] = self.blocks[j-1], self.blocks[j] # swap the two blocks
+                j -= 1
+                
+                self.clean_color()
+                self.blocks[j]['color'] = 'blue' # reset the colors and make the moved block blue
+                self.master.update()
+                self.show()
+
+        self.clean_color()
+        self.show()
+           
 
 root = Tk()
 
 app = Application(root)
 
 root.mainloop()
-
-
-
-
-
-
-
-
 
